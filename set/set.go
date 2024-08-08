@@ -1,4 +1,4 @@
-package practice
+package set
 
 import "sync"
 
