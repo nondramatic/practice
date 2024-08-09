@@ -29,7 +29,7 @@ func (s *Set[T]) Remove(element T) {
 	defer s.Unlock()
 	if _, exists := s.Data[element]; exists {
 		delete(s.Data, element)
-		s.Size++
+		s.Size--
 	}
 }
 
