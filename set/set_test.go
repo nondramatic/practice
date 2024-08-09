@@ -30,6 +30,34 @@ func TestSet_Remove(t *testing.T) {
 	}
 }
 
+func TestSet_IsEmpty(t *testing.T) {
+	s := NewSet[int64]()
+	var expect bool = true
+	if s.IsEmpty() != expect {
+		t.Errorf("expect %v, got: %v", expect, s.Len())
+	}
+}
+
+func TestSet_Clear(t *testing.T) {
+	s := NewSet[int64]()
+	s.Add(1)
+	var expect int64 = 1
+	if s.Len() != expect {
+		t.Errorf("expect %v, got: %v", expect, s.Len())
+	}
+
+	s.Clear()
+	expect = 0
+	if s.Len() != 0 {
+		t.Errorf("expect %v, got: %v", expect, s.Len())
+	}
+
+	if len(s.Data) != 0 {
+		t.Errorf("expect %v, got: %v", expect, len(s.Data))
+	}
+
+}
+
 func TestSet_Contains(t *testing.T) {
 	s := NewSet[int64]()
 	s.Add(1)
@@ -70,21 +98,83 @@ func TestSet_Union(t *testing.T) {
 }
 
 func TestSet_Intersection(t *testing.T) {
+	s1 := NewSet[int64]()
+	s1.Add(1)
+	s1.Add(2)
 
+	s2 := NewSet[int64]()
+	s2.Add(1)
+	s2.Add(3)
+
+	var expect bool = true
+	if (s1.Intersection(s2)).Len() == 0 {
+		t.Errorf("expect %v, got: %v", expect, false)
+	}
 }
 
 func TestSet_Difference(t *testing.T) {
+	s1 := NewSet[int64]()
+	s1.Add(1)
+	s1.Add(2)
 
+	s2 := NewSet[int64]()
+	s2.Add(1)
+	s2.Add(3)
+
+	var expect bool = true
+	if (s1.Difference(s2)).Len() == 0 {
+		t.Errorf("expect %v, got: %v", expect, false)
+	}
 }
 
 func TestSet_SymmetricDifference(t *testing.T) {
+	s1 := NewSet[int64]()
+	s1.Add(1)
+	s1.Add(2)
 
+	s2 := NewSet[int64]()
+	s2.Add(1)
+	s2.Add(3)
+
+	var expect bool = true
+	if (s1.SymmetricDifference(s2)).Len() == 0 {
+		t.Errorf("expect %v, got: %v", expect, false)
+	}
 }
 
-func TestSet_SubsetOf(t *testing.T) {
+func TestSet_Subset(t *testing.T) {
+	s1 := NewSet[int64]()
+	s1.Add(1)
+	s1.Add(2)
 
+	s2 := NewSet[int64]()
+	s2.Add(1)
+	s2.Add(2)
+	s2.Add(3)
+
+	var expect bool = true
+	if !s1.Subset(s2) {
+		t.Errorf("expect %v, got: %v", expect, false)
+	}
+
+	expect = false
+	if !s2.Subset(s1) {
+		t.Errorf("expect %v, got: %v", expect, true)
+	}
 }
 
-func TestSet_SymmetricSubsetOf(t *testing.T) {
+func TestSet_Superset(t *testing.T) {
+	s1 := NewSet[int64]()
+	s1.Add(1)
+	s1.Add(2)
 
+	s2 := NewSet[int64]()
+	s2.Add(1)
+	s2.Add(2)
+	s2.Add(3)
+
+	var expect bool = true
+	if !s2.Superset(s1) {
+		t.Errorf("expect %v, got: %v", expect, false)
+	}
 }

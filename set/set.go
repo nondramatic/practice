@@ -56,6 +56,7 @@ func (s *Set[T]) Clear() {
 	s.Lock()
 	defer s.Unlock()
 	s.Data = make(map[T]struct{})
+	s.Size = 0
 }
 
 // Union returns a new Set with elements from both Sets
