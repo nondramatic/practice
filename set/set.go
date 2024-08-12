@@ -23,6 +23,30 @@ func (s *Set[T]) Add(element T) {
 	}
 }
 
+// AddSome inserts some elements into the Set
+func (s *Set[T]) AddSome(elements ...T) {
+	s.Lock()
+	defer s.Unlock()
+	for _, element := range elements {
+		if _, exists := s.Data[element]; !exists {
+			s.Data[element] = struct{}{}
+			s.Size++
+		}
+	}
+}
+
+// RemoveSome deletes some elements from the Set
+func (s *Set[T]) RemoveSome(elements ...T) {
+	s.Lock()
+	defer s.Unlock()
+	for _, element := range elements {
+		if _, exists := s.Data[element]; !exists {
+			delete(s.Data, element)
+			s.Size--
+		}
+	}
+}
+
 // Remove deletes an element from the Set
 func (s *Set[T]) Remove(element T) {
 	s.Lock()

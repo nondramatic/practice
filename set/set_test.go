@@ -15,6 +15,15 @@ func TestSet_Add(t *testing.T) {
 
 }
 
+func TestSet_AddSome(t *testing.T) {
+	s := NewSet[int64]()
+	s.AddSome(1, 2, 3)
+	var expect int64 = 3
+	if s.Len() != expect {
+		t.Errorf("expect size: %d, got: %d", expect, s.Len())
+	}
+}
+
 func TestSet_Remove(t *testing.T) {
 	s := NewSet[int64]()
 	s.Add(1)
@@ -27,6 +36,18 @@ func TestSet_Remove(t *testing.T) {
 	s.Remove(2)
 	if s.Size != 2 {
 		t.Errorf("expect size: %d, got: %d", 2, s.Size)
+	}
+}
+
+func TestSet_RemoveSome(t *testing.T) {
+	s := NewSet[int64]()
+	s.Add(1)
+	s.Add(2)
+	s.Add(3)
+	s.RemoveSome(1, 2)
+	var expect int64 = 1
+	if s.Len() != expect {
+		t.Errorf("expect size: %d, got: %d", expect, s.Len())
 	}
 }
 
