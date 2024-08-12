@@ -179,7 +179,7 @@ func TestSet_Subset(t *testing.T) {
 	}
 
 	expect = false
-	if !s2.Subset(s1) {
+	if s2.Subset(s1) {
 		t.Errorf("expect %v, got: %v", expect, true)
 	}
 }
@@ -197,5 +197,12 @@ func TestSet_Superset(t *testing.T) {
 	var expect bool = true
 	if !s2.Superset(s1) {
 		t.Errorf("expect %v, got: %v", expect, false)
+	}
+}
+
+func BenchmarkSetAdd(b *testing.B) {
+	s := NewSet[int]()
+	for i := 0; i < b.N; i++ {
+		s.Add(i)
 	}
 }
