@@ -40,7 +40,7 @@ func (s *Set[T]) RemoveSome(elements ...T) {
 	s.Lock()
 	defer s.Unlock()
 	for _, element := range elements {
-		if _, exists := s.Data[element]; !exists {
+		if _, exists := s.Data[element]; exists {
 			delete(s.Data, element)
 			s.Size--
 		}
