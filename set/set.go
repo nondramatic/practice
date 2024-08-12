@@ -14,13 +14,16 @@ func NewSet[T comparable]() *Set[T] {
 }
 
 // Add inserts a new element into the Set
-func (s *Set[T]) Add(element T) {
+func (s *Set[T]) Add(element T) (bool, int64) {
 	s.Lock()
 	defer s.Unlock()
 	if _, exists := s.Data[element]; !exists {
 		s.Data[element] = struct{}{}
 		s.Size++
+		return true, s.Size
 	}
+
+	return false, s.Size
 }
 
 // AddSome inserts some elements into the Set
@@ -48,13 +51,16 @@ func (s *Set[T]) RemoveSome(elements ...T) {
 }
 
 // Remove deletes an element from the Set
-func (s *Set[T]) Remove(element T) {
+func (s *Set[T]) Remove(element T) (bool, int64) {
 	s.Lock()
 	defer s.Unlock()
 	if _, exists := s.Data[element]; exists {
 		delete(s.Data, element)
 		s.Size--
+		return true, s.Size
 	}
+
+	return false, s.Size
 }
 
 // Contains checks if an element exists in the Set
