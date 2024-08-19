@@ -7,7 +7,7 @@ import (
 
 func main() {
 
-	wordGen(100, 10)
+	println(wordGen(100, 10))
 
 }
 
@@ -27,9 +27,10 @@ func randomString(n int) string {
 	// 脑子进煎鱼了
 	const letters = "eddycjyabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 	ret := make([]byte, n)
+	r := rand.New(rand.NewSource(1))
 	for i := 0; i < n; {
 		b := make([]byte, 1)
-		if _, err := rand.Read(b); err != nil {
+		if _, err := r.Read(b); err != nil {
 			panic(err)
 		}
 		ret[i] = letters[int(b[0])%len(letters)]
