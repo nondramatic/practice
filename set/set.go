@@ -73,11 +73,15 @@ func (s *Set[T]) Contains(element T) bool {
 
 // Len returns the number of elements in the Set
 func (s *Set[T]) Len() int64 {
+	s.Lock()
+	defer s.Unlock()
 	return s.Size
 }
 
 // IsEmpty checks if the Set is empty
 func (s *Set[T]) IsEmpty() bool {
+	s.Lock()
+	defer s.Unlock()
 	return s.Size == 0
 }
 
