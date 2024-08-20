@@ -33,7 +33,7 @@ func (s *Set[T]) AddSome(elements ...T) {
 	for _, element := range elements {
 		if _, exists := s.data[element]; !exists {
 			s.data[element] = struct{}{}
-			s.data++
+			s.size++
 		}
 	}
 }
