@@ -3,7 +3,7 @@ package set
 import "sync"
 
 type Set[T comparable] struct {
-	sync.Mutex
+	sync.RWMutex
 	Size int64
 	Data map[T]struct{}
 }
