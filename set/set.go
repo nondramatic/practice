@@ -65,23 +65,23 @@ func (s *Set[T]) Remove(element T) (bool, int64) {
 
 // Contains checks if an element exists in the Set
 func (s *Set[T]) Contains(element T) bool {
-	s.Lock()
-	defer s.Unlock()
+	s.RLock()
+	defer s.RUnlock()
 	_, exists := s.Data[element]
 	return exists
 }
 
 // Len returns the number of elements in the Set
 func (s *Set[T]) Len() int64 {
-	s.Lock()
-	defer s.Unlock()
+	s.RLock()
+	defer s.RUnlock()
 	return s.Size
 }
 
 // IsEmpty checks if the Set is empty
 func (s *Set[T]) IsEmpty() bool {
-	s.Lock()
-	defer s.Unlock()
+	s.RLock()
+	defer s.RUnlock()
 	return s.Size == 0
 }
 
@@ -145,6 +145,11 @@ func (s *Set[T]) SymmetricDifference(o *Set[T]) *Set[T] {
 
 // Subset checks if the Set is a subset of another Set
 func (s *Set[T]) Subset(o *Set[T]) bool {
+
+	if s.Size > o.Size {
+		return false
+	}
+
 	for k := range s.Data {
 		if !o.Contains(k) {
 			return false
