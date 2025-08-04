@@ -1,37 +1,19 @@
 package main
 
-import (
-	"math/rand"
-)
+import "github.com/nondramatic/practice/smooth"
 
 func main() {
 
-	m := wordGen(100, 10)
-	println(m[0], m[1])
-
+	c := smooth.NewSuperServerConfig()
+	c.HttpListenAddr = ":28567"
+	server := smooth.SuperServer{
+		Executor:    Main,
+		ListenAddrs: []string{":9090"},
+		Config:      c,
+	}
+	_ = server.Run()
 }
 
-func wordGen(nDistinct, wordLen int) []string {
-	vocab := make([]string, nDistinct)
-	for i := range nDistinct {
-		word := randomString(wordLen)
-		vocab[i] = word
-	}
-	return vocab
-}
+func Main(fds []*smooth.Fd) {
 
-func randomString(n int) string {
-	// 脑子进煎鱼了
-	const letters = "eddycjyabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-	ret := make([]byte, n)
-	r := rand.New(rand.NewSource(rand.Int63()))
-	for i := 0; i < n; {
-		b := make([]byte, 1)
-		if _, err := r.Read(b); err != nil {
-			panic(err)
-		}
-		ret[i] = letters[int(b[0])%len(letters)]
-		i++
-	}
-	return string(ret)
 }
